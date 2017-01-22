@@ -1,38 +1,42 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "Gauss_Methods.h"
+#include "Gauss_Methods.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace methods;
 
-namespace UnitTest
+namespace GaussTest
 {		
 	TEST_CLASS(UnitTest1)
 	{
 	public:
 		
 		TEST_METHOD(TestMethod1)
-		{// TODO: Your test code here
-			double X1[3][3] = { { 1.0,13.0,1.0 },{ 1.0,2.0,3.0 },{ 1.0,4.0,7.0 } }; 
+		{
+			// TODO: Your test code here
+			double X1[3][3] = { { 1.0,13.0,1.0 },{ 1.0,2.0,3.0 },{ 1.0,4.0,7.0 } };
 			double Y1[3] = { 6.0, 5.0, 9.0 };
 			double R[3] = { 1.875,0.25,0.875 };
 
-			double **X = new double*[3];
-			for (int i = 0; i < 3; i++)
-				X[i] = new double[3];
-			for (int i = 0; i < 3; i++) 
-				for (int j = 0; j < 3; j++)
-					X[i][j] = X1[i][j];
-			double *Y = new double[3];
-			for (int i = 0; i < 3; i++)
-				Y[i] = Y1[i];
+			double X2[4][4] = { {7,4,3,1},{3,13,27,2},{9,10,2,3},{90,14,53,4} };
+			double Y2[4] = { 12,8,4,8 };
+			double R2[4] = { 2.056578,15.34082,-3.337,-53.74764 };
 
 			double *Out;
-			Out = methods::GaussMethod(3, (double **)X1, &Y);
-			double eps = 0.2;
+
+			Out = GaussMethod(3, (double **)X1, (double**)Y1);
 
 			for (int i = 0; i < 3; i++)
 			{
-				Assert::AreNotEqual(Out[i], R[i]);
+				Assert::IsTrue(abs(Out[i] - R[i]) < eps);
+			}
+
+			Out = GaussMethod(3, (double **)X2, (double **)Y2);
+
+			for (int i = 0; i < 3; i++)
+			{
+				Assert::IsTrue(abs(Out[i] - R2[i]) < eps);
 			}
 		}
 
